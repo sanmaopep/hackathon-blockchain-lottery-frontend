@@ -1,3 +1,4 @@
+import { AppBar, Toolbar } from '@material-ui/core';
 import { Icon, Layout, Menu } from 'antd';
 import React, { Component, Fragment } from 'react';
 
@@ -19,7 +20,7 @@ export default class MenuLayout extends Component {
     return (
       <Layout>
         <Sider width={256} style={{ minHeight: '100vh', color: 'white' }}>
-          <h1 className={styles.title}>Super Lottery</h1>
+          <h1 className={styles.title}>Super Chain</h1>
           <Menu theme="dark" mode="inline">
             {menuMap.map((item, index) => {
               return (
@@ -34,7 +35,7 @@ export default class MenuLayout extends Component {
           </Menu>
         </Sider>
         <Layout>
-          <Content style={{ margin: '24px 16px 0' }}>
+          <Content style={{ margin: '24px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 480 }}>
               {this.props.children}
             </div>

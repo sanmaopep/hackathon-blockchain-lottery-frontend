@@ -4,13 +4,13 @@ import { IConfig } from 'umi-types';
 const config: IConfig = {
   treeShaking: true,
   // todo
-  routes: [
-    {
-      path: '/',
-      component: '../layouts/index',
-      routes: [{ path: '/', component: '../pages/index' }],
-    },
-  ],
+  // routes: [
+  //   {
+  //     path: '/',
+  //     component: '../layouts/index',
+  //     routes: [{ path: '/', component: '../pages/index' }],
+  //   },
+  // ],
   proxy: {
     '/api': {
       // todo
