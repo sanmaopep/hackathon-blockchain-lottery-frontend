@@ -1,5 +1,6 @@
 import { convertStringToBytes, sortObject } from '@/utils/utils';
 
+import { Mnemonic } from './../utils/constants';
 import service from '@/utils/fetch';
 import { toast } from 'react-toastify';
 
@@ -25,9 +26,7 @@ class CosmosState {
   constructor() {
     this.cosmos = cosmosjs.network(this.lcdUrl, this.chainId);
 
-    this.setMnemonic(
-      'twice enemy net miracle daring extra angle cycle robust series dish couple stand estate allow crumble banner van degree strike evoke ranch series noise',
-    );
+    this.setMnemonic(Mnemonic);
   }
 
   setMnemonic(mnemonic) {

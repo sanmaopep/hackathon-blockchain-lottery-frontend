@@ -44,38 +44,47 @@ export default class LotteryIndex extends React.Component {
           </Button>
         </Typography>
         <List style={{ marginTop: 20 }}>
-          {lotteryState.lotteries.map(lottery => {
-            return (
-              <ListItem
-                key={lottery.id}
-                button={true}
-                onClick={() => {
-                  router.push(`/lottery/${lottery.id}`);
-                }}
-              >
-                <ListItemAvatar>
-                  <Avatar>
-                    <HowToVoteIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={lottery.name} secondary={lottery.status} />
-                <ListItemSecondaryAction>
-                  <Button>
-                    &nbsp; 23 / 100 &nbsp;
-                    <PersonIcon />
-                  </Button>
-
-                  <IconButton
+          {lotteryState.lotteries
+            ? lotteryState.lotteries.map(lottery => {
+                return (
+                  <ListItem
+                    key={lottery.id}
+                    button={true}
                     onClick={() => {
                       router.push(`/lottery/${lottery.id}`);
                     }}
                   >
-                    <DetailsIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            );
-          })}
+                    <ListItemAvatar>
+                      <Avatar>
+                        <HowToVoteIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={lottery.title} secondary={lottery.description} />
+                    <ListItemSecondaryAction>
+                      <Button>
+                        &nbsp;{' '}
+                        {lottery.rounds
+                          ? lottery.rounds.reduce((acm, curr) => {
+                              acm += Number(curr);
+                              return acm;
+                            }, 0)
+                          : 0}
+                        &nbsp;/ {lottery.candidateNum} &nbsp;
+                        <PersonIcon />
+                      </Button>
+
+                      <IconButton
+                        onClick={() => {
+                          router.push(`/lottery/${lottery.id}`);
+                        }}
+                      >
+                        <DetailsIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })
+            : 'No Lotteries'}
         </List>
       </div>
     );

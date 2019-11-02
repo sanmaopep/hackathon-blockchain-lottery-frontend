@@ -9,10 +9,9 @@ function checkStatus(response: Response) {
     return response;
   }
 
-  const error = new Error(response.statusText);
-  // @ts-ignore
-  error.response = response;
-  throw error;
+  throw {
+    message: `${response.status} ${response.statusText}`,
+  };
 }
 /**
  * Requests a URL, returning a promise.
@@ -28,7 +27,6 @@ function request(url, options = {}) {
     .then(data => data)
     .catch(err => {
       toast.error(err.message);
-      // return err.response.json();
     });
 }
 

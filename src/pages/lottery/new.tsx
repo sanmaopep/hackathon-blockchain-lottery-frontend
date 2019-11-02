@@ -1,4 +1,6 @@
-import { Button } from '@material-ui/core';
+import { Button, Tooltip } from '@material-ui/core';
+
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import React from 'react';
 import SchemaForm from '@/components/SchemaForm';
 import { createLottery } from '@/services/lottery';
@@ -10,7 +12,19 @@ const schema = {
   properties: {
     title: { type: 'string', title: 'Name' },
     description: { type: 'string', title: 'Description' },
-    hashed: { type: 'boolean', title: 'Hash', default: false },
+    hashed: {
+      type: 'boolean',
+      title: 'Hash (Name of people will be hashed)',
+      // title: (
+      //   <>
+      //     Hash &nbsp;
+      //     <Tooltip title="This is a hash" placement="right">
+      //       <HelpOutlineIcon fontSize="small" />
+      //     </Tooltip>
+      //   </>
+      // ),
+      default: false,
+    },
     rounds: {
       title: 'Lottery Rounds',
       type: 'array',
@@ -24,6 +38,14 @@ const schema = {
   },
 };
 
+const uiSchema = {
+  hashed: {
+    title: {
+      classNames: 'Hashed',
+    },
+  },
+};
+
 export default class New extends React.Component {
   render() {
     return (
@@ -33,6 +55,7 @@ export default class New extends React.Component {
             createLottery(formData);
           }}
           schema={schema}
+          uiSchema={uiSchema}
         >
           <Button variant="contained" fullWidth={true} type="submit" color="primary">
             Submit

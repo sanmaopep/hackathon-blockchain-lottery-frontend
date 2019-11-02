@@ -1,5 +1,6 @@
 import { Lottery } from './../store/lottery';
 import cosmosState from '@/store/comos';
+import { router } from 'umi';
 import service from '@/utils/fetch';
 import { toast } from 'react-toastify';
 
@@ -10,7 +11,6 @@ export async function createLottery(lottery: Lottery) {
       value: {
         ...lottery,
         hashed: lottery.hashed ? lottery.hashed : false,
-        // @ts-ignore
         rounds: lottery.rounds ? lottery.rounds.map(num => String(num)) : [],
         owner: cosmosState.address,
       },
@@ -19,34 +19,48 @@ export async function createLottery(lottery: Lottery) {
 
   toast.success('Add Successfully!');
   toast.success(JSON.stringify(response.raw_log));
+  router.replace('/lottery');
 }
 
 export async function getLotteries() {
   const response = await service.get(cosmosState.lcdUrl + '/lotteryservice/lotteries');
 
-  return [
-    {
-      id: '233123',
-      name: 'H1B Lottery',
-      description: 'xxxx',
-      people: 100,
-      status: 'working',
-    },
-    {
-      id: '213123333321',
-      name: 'Company Lottery',
-      description: 'xxxx',
-      people: 100,
-      status: 'working',
-    },
-    {
-      id: '11111111',
-      name: 'KKs Name',
-      description: 'xxxx',
-      people: 100,
-      status: 'working',
-    },
-  ];
+  if (!response) return;
+
+  return response.result;
 }
 
-export async function getLottery(id: string) {}
+export async function getLottery(id: string) {
+  const response = await service.get(cosmosState.lcdUrl + '/lotteryservice/lottery/' + id);
+  const Lottery = response.result.Lottery;
+  Lottery.currentRound = Number(Lottery.currentRound);
+
+  return Lottery;
+}
+
+export async function addPplToLottery(lotteryId: string, candidates: string[]) {
+  const response = await cosmosState.broadcastMsgs([
+    {
+      type: 'lotteryservice/MsgAddCandidates',
+      value: {
+        sender: cosmosState.address,
+        id: lotteryId,
+        candidates,
+      },
+    },
+  ]);
+
+  toast.success('Add Successfully!');
+  toast.success(JSON.stringify(response.raw_log));
+}
+
+export async function getLotteryPpl(id: string) {
+  const response = await service.get(
+    cosmosState.lcdUrl + '/lotteryservice/lottery/' + id + '/candidates',
+  );
+  if (!response || !response.result) {
+    return [];
+  }
+
+  return response.result;
+}
