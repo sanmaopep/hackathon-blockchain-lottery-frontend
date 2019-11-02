@@ -1,8 +1,10 @@
-import { Button, Divider, Typography } from '@material-ui/core';
+import { Button, Divider, Icon, Typography } from '@material-ui/core';
 
 import AddPeopleDialog from './components/AddPeople';
+import PeopleList from './components/PeopleList';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import React from 'react';
+import Rounds from './components/Rounds';
 
 export default class LotteryDetail extends React.Component {
   render() {
@@ -10,15 +12,24 @@ export default class LotteryDetail extends React.Component {
       <div>
         <Typography variant="h4">
           H1B
-          <AddPeopleDialog>
-            <Button variant="contained" style={{ float: 'right' }} color="primary">
-              <PersonAddIcon />
-              &nbsp; Add People
-            </Button>
-          </AddPeopleDialog>
+          <div style={{ float: 'right' }}>
+            {/* <Button variant="contained" color="primary" style={{ marginRight: 10 }}>
+              <Icon className="fa fa-play" />
+              Start
+            </Button> */}
+            <AddPeopleDialog>
+              <Button variant="contained">
+                <PersonAddIcon />
+                &nbsp; Add People
+              </Button>
+            </AddPeopleDialog>
+          </div>
         </Typography>
         {/* <Typography variant="subtitle1">Description</Typography> */}
-        <Divider style={{ marginTop: 20 }} />
+        <Divider style={{ margin: '20px 0' }} />
+        <Rounds />
+        <Divider style={{ margin: '20px 0' }} />
+        <PeopleList peopleList={['Yiwei', 'KaiKai', 'Steven Johnson']} />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 
-interface Lottery {
+export interface Lottery {
   id: string;
   status: string;
   description: string;
@@ -30,6 +30,30 @@ class LotteryState {
       description: 'xxxx',
       people: 100,
       status: 'working',
+    },
+  ];
+
+  @observable currentRound = 2;
+  @observable rounds = [
+    {
+      num: 333,
+      status: 'done',
+      list: ['Yiwei Mao', 'Hello'],
+    },
+    {
+      num: 323,
+      status: '',
+      list: [],
+    },
+    {
+      num: 323,
+      status: '',
+      list: [],
+    },
+    {
+      num: 123,
+      status: '',
+      list: [],
     },
   ];
 }

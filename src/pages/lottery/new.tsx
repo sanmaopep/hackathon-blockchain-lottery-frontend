@@ -1,14 +1,16 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
 import SchemaForm from '@/components/SchemaForm';
+import { createLottery } from '@/services/lottery';
 
 const schema = {
   type: 'object',
   title: 'New Lottery',
   required: ['name'],
   properties: {
-    name: { type: 'string' },
-    description: { type: 'string' },
+    name: { type: 'string', title: 'Name' },
+    description: { type: 'string', title: 'Description' },
+    hash: { type: 'boolean', title: 'Hash' },
     rounds: {
       title: 'Lottery Rounds',
       type: 'array',
@@ -32,7 +34,7 @@ export default class New extends React.Component {
       <div>
         <SchemaForm
           onSubmit={({ formData }) => {
-            console.log('submit', formData);
+            createLottery(formData);
           }}
           schema={schema}
         >
