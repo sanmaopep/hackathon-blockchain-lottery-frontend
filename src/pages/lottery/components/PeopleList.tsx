@@ -4,10 +4,13 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   TablePagination,
+  Typography,
 } from '@material-ui/core';
 
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import React from 'react';
 
@@ -20,18 +23,22 @@ export default class PeopleList extends React.Component<Props, any> {
     const { peopleList } = this.props;
 
     return (
-      <div>
+      <div style={{ minWidth: 500 }}>
         <List>
           {peopleList
             ? peopleList.map((people, index) => {
                 return (
-                  <ListItem key={index}>
+                  <ListItem key={index} button={true}>
                     <ListItemAvatar>
                       <Avatar>
                         <PersonIcon />
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={people} />
+                    <ListItemSecondaryAction>
+                      <CheckCircleOutlineIcon />
+                      &nbsp; Win
+                    </ListItemSecondaryAction>
                   </ListItem>
                 );
                 return;

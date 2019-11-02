@@ -6,6 +6,8 @@ export interface Lottery {
   description: string;
   name: string;
   people: number;
+  hashed?: boolean;
+  rounds?: number[];
 }
 
 class LotteryState {
@@ -59,4 +61,5 @@ class LotteryState {
 }
 
 const lotteryState = new LotteryState();
+
 export default lotteryState;

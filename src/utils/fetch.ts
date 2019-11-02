@@ -1,7 +1,5 @@
 import { toast } from 'react-toastify';
 
-const base = `http://182.254.137.15:8080/finance/`;
-
 function parseJSON(response) {
   return response.json();
 }
@@ -24,8 +22,6 @@ function checkStatus(response: Response) {
  * @return {object}           An object containing either "data" or "err"
  */
 function request(url, options = {}) {
-  url = base + url;
-
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
@@ -38,7 +34,7 @@ function request(url, options = {}) {
 
 const service = {
   request: request,
-  get(url, data) {
+  get(url, data?) {
     if (data) {
       return request(url, {
         method: 'GET',

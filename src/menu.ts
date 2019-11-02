@@ -1,3 +1,7 @@
+import { getBaseReq, signJson } from './utils/getBaseReq';
+
+import cosmosState from './store/comos';
+
 interface MenuItem {
   text: string;
   route: string;
@@ -11,11 +15,11 @@ const menuMap: MenuItem[] = [
     icon: 'fa fa-play-circle',
     text: 'Lottery',
   },
-  {
-    route: '/blockBrowser',
-    icon: 'fa fa-folder-open-o',
-    text: 'Block Browser',
-  },
+  // {
+  //   route: '/blockBrowser',
+  //   icon: 'fa fa-folder-open-o',
+  //   text: 'Block Browser',
+  // },
 ];
 
 export default menuMap;

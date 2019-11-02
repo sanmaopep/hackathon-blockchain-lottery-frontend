@@ -6,23 +6,19 @@ import { createLottery } from '@/services/lottery';
 const schema = {
   type: 'object',
   title: 'New Lottery',
-  required: ['name'],
+  required: ['title', 'description'],
   properties: {
-    name: { type: 'string', title: 'Name' },
+    title: { type: 'string', title: 'Name' },
     description: { type: 'string', title: 'Description' },
-    hash: { type: 'boolean', title: 'Hash' },
+    hashed: { type: 'boolean', title: 'Hash', default: false },
     rounds: {
       title: 'Lottery Rounds',
       type: 'array',
+      minItems: 1,
       items: {
-        type: 'object',
-        required: ['quota'],
-        properties: {
-          quota: {
-            title: 'The Quota Number of Current Round',
-            type: 'integer',
-          },
-        },
+        title: 'The Quota of Current Round',
+        type: 'integer',
+        default: 1,
       },
     },
   },

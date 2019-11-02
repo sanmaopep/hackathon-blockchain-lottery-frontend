@@ -1,5 +1,7 @@
 import { Button, Icon, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
 
+import PeopleList from './PeopleList';
+import PeopleListDialog from './PeopleDialog';
 import React from 'react';
 import lotteryState from '@/store/lottery';
 import { observer } from 'mobx-react';
@@ -17,9 +19,11 @@ export default class Rounds extends React.Component {
                   <Typography variant="h6">
                     Round {index}
                     {index < lotteryState.currentRound ? (
-                      <Button variant="contained" style={{ float: 'right' }} color="primary">
-                        Lottery Result
-                      </Button>
+                      <PeopleListDialog peopleList={['Yiwei', 'KaiKai', 'Steven Johnson']}>
+                        <Button variant="contained" style={{ float: 'right' }} color="primary">
+                          Result
+                        </Button>
+                      </PeopleListDialog>
                     ) : (
                       ''
                     )}

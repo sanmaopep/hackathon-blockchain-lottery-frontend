@@ -29,6 +29,7 @@ export default class LotteryDetail extends React.Component {
         <Divider style={{ margin: '20px 0' }} />
         <Rounds />
         <Divider style={{ margin: '20px 0' }} />
+        <Typography variant="h5">People List</Typography>
         <PeopleList peopleList={['Yiwei', 'KaiKai', 'Steven Johnson']} />
       </div>
     );
