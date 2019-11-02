@@ -1,19 +1,19 @@
 interface MenuItem {
   text: string;
   route: string;
-  /** Look up Icons: https://ant.design/components/icon/ */
+  /** Look up Icons: https://fontawesome.com/v4.7.0/icons/ */
   icon: string;
 }
 
 const menuMap: MenuItem[] = [
   {
     route: '/lottery',
-    icon: 'account-book',
+    icon: 'fa fa-play-circle',
     text: 'Lottery',
   },
   {
     route: '/blockBrowser',
-    icon: 'api',
+    icon: 'fa fa-folder-open-o',
     text: 'Block Browser',
   },
 ];

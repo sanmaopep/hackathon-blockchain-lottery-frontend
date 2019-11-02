@@ -50,7 +50,11 @@ export default class LotteryIndex extends React.Component {
                   <IconButton>
                     <PersonAddIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton
+                    onClick={() => {
+                      router.push(`/lottery/${lottery.id}`);
+                    }}
+                  >
                     <DetailsIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
