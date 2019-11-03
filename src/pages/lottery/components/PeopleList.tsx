@@ -7,43 +7,38 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   TablePagination,
+  TextField,
   Typography,
 } from '@material-ui/core';
 
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import React from 'react';
+import { autorun } from 'mobx';
+import lotteryState from '@/store/lottery';
+import { observer } from 'mobx-react';
 
 const PER_PAGE = 10;
 
-interface Props {
-  peopleList: string[];
-}
-
-export default class PeopleList extends React.Component<Props, any> {
+@observer
+export default class PeopleList extends React.Component<any, any> {
   state = {
     currPagePpl: [],
     currPage: 0,
   };
 
   componentDidMount() {
-    this.setState({
-      currPagePpl: this.props.peopleList.slice(0, PER_PAGE - 1),
-      currPage: 0,
+    autorun(() => {
+      const { sortedPpl } = lotteryState;
+      this.setState({
+        currPagePpl: sortedPpl.slice(0, PER_PAGE - 1),
+        currPage: 0,
+      });
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.peopleList !== this.props.peopleList) {
-      this.setState({
-        currPagePpl: nextProps.peopleList.slice(0, PER_PAGE - 1),
-        currPage: 0,
-      });
-    }
-  }
-
   render() {
-    const { peopleList } = this.props;
+    const { winner, sortedPpl } = lotteryState;
     const { currPagePpl } = this.state;
 
     return (
@@ -51,6 +46,15 @@ export default class PeopleList extends React.Component<Props, any> {
         <List>
           {currPagePpl
             ? currPagePpl.map((people, index) => {
+                let winText = '';
+                if (winner) {
+                  winner.forEach((roundWinner, index) => {
+                    if (roundWinner.indexOf(people) !== -1) {
+                      winText = `Win in Round ${index}`;
+                    }
+                  });
+                }
+
                 return (
                   <ListItem key={index} button={true}>
                     <ListItemAvatar>
@@ -59,10 +63,14 @@ export default class PeopleList extends React.Component<Props, any> {
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={people} />
-                    <ListItemSecondaryAction>
-                      <CheckCircleOutlineIcon />
-                      &nbsp; Win
-                    </ListItemSecondaryAction>
+                    {winText !== '' ? (
+                      <ListItemSecondaryAction>
+                        <CheckCircleOutlineIcon />
+                        &nbsp; {winText}
+                      </ListItemSecondaryAction>
+                    ) : (
+                      ''
+                    )}
                   </ListItem>
                 );
                 return;
@@ -73,12 +81,12 @@ export default class PeopleList extends React.Component<Props, any> {
           component="div"
           rowsPerPageOptions={[PER_PAGE]}
           page={this.state.currPage}
-          count={peopleList.length}
+          count={sortedPpl.length}
           rowsPerPage={PER_PAGE}
           onChangePage={(_, newPage) => {
             this.setState({
               currPage: newPage,
-              currPagePpl: peopleList.slice(newPage * PER_PAGE, newPage * PER_PAGE + PER_PAGE),
+              currPagePpl: sortedPpl.slice(newPage * PER_PAGE, newPage * PER_PAGE + PER_PAGE),
             });
           }}
         />

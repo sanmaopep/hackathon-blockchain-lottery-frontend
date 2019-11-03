@@ -10,19 +10,12 @@ const schema = {
   title: 'New Lottery',
   required: ['title', 'description'],
   properties: {
-    title: { type: 'string', title: 'Name' },
+    title: { type: 'string', title: 'Title' },
     description: { type: 'string', title: 'Description' },
     hashed: {
       type: 'boolean',
-      title: 'Hash (Name of people will be hashed)',
-      // title: (
-      //   <>
-      //     Hash &nbsp;
-      //     <Tooltip title="This is a hash" placement="right">
-      //       <HelpOutlineIcon fontSize="small" />
-      //     </Tooltip>
-      //   </>
-      // ),
+      title: 'Anonymous',
+      description: "If clicked all candidate's information will be hidden",
       default: false,
     },
     rounds: {
@@ -40,9 +33,7 @@ const schema = {
 
 const uiSchema = {
   hashed: {
-    title: {
-      classNames: 'Hashed',
-    },
+    'ui:widget': 'checkbox',
   },
 };
 

@@ -1,2 +1,2 @@
 export const Mnemonic =
-  'lab route marble coffee champion educate hill crack heart unhappy keen birth cat real order actual innocent tired laugh tail volcano juice promote toilet';
+  'broken old argue castle beauty rate assume thank canyon stamp crew various two inner limb exhibit tower dragon hero ribbon brown run only lottery';

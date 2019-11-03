@@ -21,7 +21,8 @@
     "react-dom": "^16.8.6",
     "react-jsonschema-form": "^1.8.0",
     "react-toastify": "^5.4.0",
-    "rjsf-material-ui": "^0.3.8"
+    "rjsf-material-ui": "^0.3.8",
+    "sha256": "^0.2.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",

@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './index.css';
-const cosmosjs = require('@cosmostation/cosmosjs');
+import { router } from 'umi';
 
 export default function() {
-  return <div className={styles.normal}></div>;
+  router.replace('/lottery');
+  return <div>123</div>;
 }

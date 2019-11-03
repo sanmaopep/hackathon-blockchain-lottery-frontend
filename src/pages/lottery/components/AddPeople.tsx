@@ -15,8 +15,7 @@ const schema = {
   minItems: 1,
   items: {
     type: 'string',
-    title: 'Name',
-    default: "People's Name",
+    title: 'Passport',
   },
 };
 
@@ -46,9 +45,15 @@ export default function AddPeopleDialog(props: any) {
     handleClose();
   };
 
+  const spanProps = !props.disabled
+    ? {
+        onClick: handleClickOpen,
+      }
+    : {};
+
   return (
     <>
-      <span onClick={handleClickOpen}>{props.children}</span>
+      <span {...spanProps}>{props.children}</span>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add People</DialogTitle>

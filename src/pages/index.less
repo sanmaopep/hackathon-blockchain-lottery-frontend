@@ -1,0 +1,19 @@
+.lotteryDetail {
+  position: relative;
+
+  @leftWidth: 300px;
+
+  .leftPanel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: @leftWidth;
+  }
+
+  .mainContent {
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    margin-left: @leftWidth + 20px;
+    padding-left: 20px;
+  }
+}

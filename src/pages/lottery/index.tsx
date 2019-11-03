@@ -1,6 +1,12 @@
 import {
   Avatar,
   Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  Fab,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -10,9 +16,10 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import AddIcon from '@material-ui/icons/Add';
 import DetailsIcon from '@material-ui/icons/Details';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import PersonIcon from '@material-ui/icons/Person';
+import PersonIcon from '@material-ui/icons/PersonOutline';
 import React from 'react';
 import { getLotteries } from '@/services/lottery';
 import lotteryState from '@/store/lottery';
@@ -30,62 +37,83 @@ export default class LotteryIndex extends React.Component {
   render() {
     return (
       <div>
-        <Typography variant="h4">
-          Lottery List
-          <Button
-            variant="contained"
-            onClick={() => {
-              router.push('/lottery/new');
-            }}
-            style={{ float: 'right' }}
-            color="primary"
-          >
-            New
-          </Button>
-        </Typography>
-        <List style={{ marginTop: 20 }}>
+        <Fab
+          style={{
+            position: 'fixed',
+            bottom: 40,
+            right: 40,
+          }}
+          variant="contained"
+          onClick={() => {
+            router.push('/lottery/new');
+          }}
+          color="primary"
+        >
+          <AddIcon />
+          Add New Lottery
+        </Fab>
+        <Grid component="div" container={true} space={3}>
           {lotteryState.lotteries
             ? lotteryState.lotteries.map(lottery => {
-                return (
-                  <ListItem
-                    key={lottery.id}
-                    button={true}
-                    onClick={() => {
-                      router.push(`/lottery/${lottery.id}`);
-                    }}
-                  >
-                    <ListItemAvatar>
-                      <Avatar>
-                        <HowToVoteIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={lottery.title} secondary={lottery.description} />
-                    <ListItemSecondaryAction>
-                      <Button>
-                        &nbsp;{' '}
-                        {lottery.rounds
-                          ? lottery.rounds.reduce((acm, curr) => {
-                              acm += Number(curr);
-                              return acm;
-                            }, 0)
-                          : 0}
-                        &nbsp;/ {lottery.candidateNum} &nbsp;
-                        <PersonIcon />
-                      </Button>
+                let subHeader = '';
+                if (lottery.currentRound === -1) {
+                  subHeader = 'Not Start Yet';
+                  // @ts-ignore
+                } else if (lottery.currentRound + 2 === lottery.rounds.length) {
+                  subHeader = 'Finished';
+                } else {
+                  subHeader = 'Playing';
+                }
 
-                      <IconButton
+                return (
+                  <Grid item={true} xs={3} key={lottery.id}>
+                    <Card style={{ margin: 20 }}>
+                      <CardActionArea
                         onClick={() => {
                           router.push(`/lottery/${lottery.id}`);
                         }}
                       >
-                        <DetailsIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
+                        <CardHeader
+                          avatar={
+                            <Avatar>
+                              <HowToVoteIcon />
+                            </Avatar>
+                          }
+                          title={lottery.title}
+                          subheader={subHeader}
+                          action={
+                            <Button>
+                              &nbsp;{' '}
+                              {lottery.rounds
+                                ? lottery.rounds.reduce((acm, curr) => {
+                                    acm += Number(curr);
+                                    return acm;
+                                  }, 0)
+                                : 0}
+                              &nbsp;/ {lottery.candidateNum} &nbsp;
+                              <PersonIcon />
+                            </Button>
+                          }
+                        />
+                        <CardContent>
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                            style={{
+                              height: 80,
+                            }}
+                          >
+                            {lottery.description.substring(0, 100) + '...'}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
                 );
               })
             : 'No Lotteries'}
-        </List>
+        </Grid>
       </div>
     );
   }

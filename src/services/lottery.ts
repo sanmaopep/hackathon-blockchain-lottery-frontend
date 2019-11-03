@@ -32,6 +32,10 @@ export async function getLotteries() {
 
 export async function getLottery(id: string) {
   const response = await service.get(cosmosState.lcdUrl + '/lotteryservice/lottery/' + id);
+  if (!response || !response.result) {
+    return [];
+  }
+
   const Lottery = response.result.Lottery;
   Lottery.currentRound = Number(Lottery.currentRound);
 
@@ -63,4 +67,29 @@ export async function getLotteryPpl(id: string) {
   }
 
   return response.result;
+}
+
+export async function getLotteryWinner(id: string) {
+  const response = await service.get(
+    cosmosState.lcdUrl + '/lotteryservice/lottery/' + id + '/winners',
+  );
+  if (!response || !response.result) {
+    return [];
+  }
+
+  return response.result;
+}
+
+export async function startLottery(lotteryId: string) {
+  await cosmosState.broadcastMsgs([
+    {
+      type: 'lotteryservice/MsgStartLottery',
+      value: {
+        sender: cosmosState.address,
+        id: lotteryId,
+      },
+    },
+  ]);
+
+  toast.info('Start Playing!');
 }

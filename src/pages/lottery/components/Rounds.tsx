@@ -8,60 +8,101 @@ import {
   Stepper,
   Typography,
 } from '@material-ui/core';
+import { autorun, toJS, trace } from 'mobx';
+import { getLottery, getLotteryWinner, startLottery } from '@/services/lottery';
+import lotteryState, { LotteryStatus } from '@/store/lottery';
 
-import PeopleList from './PeopleList';
-import PeopleListDialog from './PeopleDialog';
 import React from 'react';
-import { getLottery } from '@/services/lottery';
-import lotteryState from '@/store/lottery';
 import { observer } from 'mobx-react';
 
 @observer
 export default class Rounds extends React.Component {
   state = {
-    loading: false,
-    currentRound: -1,
+    currentRound: 0,
   };
 
-  startPlaying = currentRound => {
+  componentDidMount() {
+    this.fetchData();
+
+    autorun(() => {
+      const { currLottery } = lotteryState;
+      if (lotteryState.status === LotteryStatus.NotStart) {
+        this.setState({
+          loading: false,
+        });
+      }
+      if (!currLottery) {
+        return;
+      }
+      if (lotteryState.status === LotteryStatus.Finish) {
+        this.setState({
+          // @ts-ignore
+          currentRound: currLottery.rounds.length,
+        });
+      }
+    });
+  }
+
+  startPlaying = () => {
+    // @ts-ignore
+    const lotteryId = lotteryState.currLottery.id;
+    startLottery(lotteryId);
+
+    this.setState({
+      loading: true,
+    });
+
+    //@ts-ignore
+    this.goReqInterval();
+  };
+
+  goReqInterval = () => {
+    this.fetchData();
+    const reqInterval = setInterval(() => {
+      this.fetchData(() => {
+        clearInterval(reqInterval);
+      });
+    }, 2000);
+  };
+
+  fetchData = (cb = () => {}) => {
     // @ts-ignore
     const lotteryId = lotteryState.currLottery.id;
 
-    // send start request
+    getLottery(lotteryId).then(lottery => {
+      lotteryState.currLottery = lottery;
+    });
 
-    this.setState({ loading: true, currentRound });
-
-    // request the state every 5 seconds
-    const interval = setInterval(async () => {
-      const lottery = await getLottery(lotteryId);
-      const newRound = Number(lottery.currentRound) + 1;
-      if (newRound > currentRound) {
-        this.setState({ loading: false, currentRound: newRound });
-        lotteryState.currLottery = lottery;
-        clearInterval(interval);
+    getLotteryWinner(lotteryId).then(winner => {
+      if (winner) {
+        cb();
       }
-    }, 5000);
+      lotteryState.winner = winner;
+    });
   };
 
   render() {
-    const { currLottery } = lotteryState;
+    const { currLottery, status } = lotteryState;
+    const { currentRound } = this.state;
+
+    const loading = status === LotteryStatus.Playing;
 
     if (!currLottery) return '';
-    let { currentRound, rounds } = currLottery;
-    if (!rounds || rounds.length === 0 || !currentRound) {
+    const rounds = currLottery.rounds;
+    if (!rounds || rounds.length === 0) {
       return '';
     }
 
     return (
       <div>
-        <Stepper activeStep={currentRound + 1} orientation="vertical">
+        <Stepper activeStep={currentRound} orientation="vertical">
           {rounds.map((roundPplNum, index) => {
             return (
               <Step key={index}>
                 <StepLabel>
-                  <Typography variant="h6">
+                  <Typography variant="h4">
                     Round {index}
-                    {index <= Number(currentRound) ? (
+                    {/* {index < Number(currentRound) ? (
                       <PeopleListDialog peopleList={['Yiwei', 'KaiKai', 'Steven Johnson']}>
                         <Button variant="contained" style={{ float: 'right' }} color="primary">
                           Result
@@ -69,24 +110,27 @@ export default class Rounds extends React.Component {
                       </PeopleListDialog>
                     ) : (
                       ''
-                    )}
+                    )} */}
                   </Typography>
                   <b>{roundPplNum}</b> People TBS
                 </StepLabel>
                 <StepContent>
-                  {this.state.loading ? (
+                  {loading ? (
                     <Typography>
                       <CircularProgress />
-                      &nbsp;&nbsp;&nbsp; This Round is Playing, Waiting...
+                      &nbsp;&nbsp;&nbsp; Waiting...
                     </Typography>
                   ) : (
                     <Typography>
-                      Click
-                      <Button onClick={() => this.startPlaying(index)} color="primary">
+                      <Button
+                        variant="contained"
+                        onClick={() => this.startPlaying()}
+                        color="primary"
+                      >
                         <Icon className="fa fa-play" />
-                        Start
+                        &nbsp;
+                        <b>Start</b>
                       </Button>
-                      To Begin This Round
                     </Typography>
                   )}
                 </StepContent>
