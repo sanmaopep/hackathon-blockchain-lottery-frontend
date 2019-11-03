@@ -65,6 +65,7 @@ export default class LotteryIndex extends React.Component {
           <AddIcon />
           Add New Lottery
         </Fab>
+        <h1 style={{ textAlign: 'center', margin: '5px 0' }}>Lotteries</h1>
         <Grid component="div" container={true} space={3}>
           {lotteryState.lotteries
             ? lotteryState.lotteries.map(lottery => {

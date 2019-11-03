@@ -10,6 +10,7 @@ import SchemaForm from '@/components/SchemaForm';
 import TextField from '@material-ui/core/TextField';
 import { addPplToLottery } from '@/services/lottery';
 import lotteryState from '@/store/lottery';
+import { toast } from 'react-toastify';
 
 const schema = {
   type: 'array',
@@ -47,6 +48,17 @@ export default class AddPeopleDialog extends PureComponent<any, any> {
     if (!lotteryState.currLottery) {
       return;
     }
+
+    const set = new Set(lotteryState.pplList);
+
+    for (let ppl of formData) {
+      if (set.has(ppl)) {
+        toast.error(`Multiple ${ppl}`);
+        return;
+      }
+      set.add(ppl);
+    }
+
     addPplToLottery(lotteryState.currLottery.id, formData);
 
     this.handleClose();

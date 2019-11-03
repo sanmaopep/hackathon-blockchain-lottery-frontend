@@ -26,9 +26,10 @@ export default class Rounds extends React.Component {
     autorun(() => {
       const { currLottery } = lotteryState;
       if (lotteryState.status === LotteryStatus.NotStart) {
-        // this.setState({
-        //   loading: false,
-        // });
+        this.setState({
+          loading: false,
+          currentRound: 0,
+        });
       }
       if (!currLottery) {
         return;

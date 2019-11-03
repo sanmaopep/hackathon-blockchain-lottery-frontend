@@ -98,13 +98,25 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
-          {/* <img
-            style={{
-              width: 40,
-            }}
-            src={require('../assets/Logo.png')}
-          /> */}
+          <div>
+            <img
+              style={{
+                width: 40,
+              }}
+              src={require('../assets/Logo.png')}
+            />
+            &nbsp;&nbsp;
+          </div>
+
+          <Typography variant="h6" style={{ fontFamily: '"Times"', fontSize: 24 }}>
+            Super Lottery
+          </Typography>
+
           <IconButton
+            style={{
+              position: 'absolute',
+              right: 20,
+            }}
             onClick={() => {
               router.push('/lottery');
             }}
@@ -112,14 +124,6 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
           >
             <HomeIcon />
           </IconButton>
-          &nbsp;&nbsp;
-          <Typography
-            variant="h6"
-            noWrap={true}
-            style={{ color: 'white', fontFamily: '"Bauhaus 93"', fontSize: 28 }}
-          >
-            Super Lottery
-          </Typography>
         </Toolbar>
       </AppBar>
 
