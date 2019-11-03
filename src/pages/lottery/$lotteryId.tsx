@@ -63,7 +63,7 @@ export default class LotteryDetail extends React.Component {
               </AddPeopleDialog>
               &nbsp;&nbsp;
               <CheckWin>
-                <Button variant="contained">Check Person</Button>
+                <Button variant="contained">Check Result</Button>
               </CheckWin>
             </div>
           </Typography>

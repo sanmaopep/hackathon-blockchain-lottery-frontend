@@ -71,7 +71,7 @@ export default class Rounds extends React.Component {
               <Step key={index}>
                 <StepLabel>
                   <Typography variant="h4">
-                    Round {index}
+                    Round {index + 1}
                     {/* {index < Number(currentRound) ? (
                       <PeopleListDialog peopleList={['Yiwei', 'KaiKai', 'Steven Johnson']}>
                         <Button variant="contained" style={{ float: 'right' }} color="primary">
@@ -82,7 +82,7 @@ export default class Rounds extends React.Component {
                       ''
                     )} */}
                   </Typography>
-                  <b>{roundPplNum}</b> People TBS
+                  <b>{roundPplNum}</b> Winner
                 </StepLabel>
                 <StepContent>
                   {loading ? (

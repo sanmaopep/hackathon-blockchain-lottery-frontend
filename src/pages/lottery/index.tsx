@@ -72,8 +72,6 @@ export default class LotteryIndex extends React.Component {
                 if (lottery.stopEnroll) {
                   subHeader = <span style={{ color: 'red' }}>Finished</span>;
                   // @ts-ignore
-                } else {
-                  subHeader = <span style={{ color: 'green' }}>Not Start</span>;
                 }
 
                 return (

@@ -1,4 +1,4 @@
-import { Button, DialogActions, TextField } from '@material-ui/core';
+import { Button, DialogActions, TextField, Typography } from '@material-ui/core';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -55,8 +55,9 @@ export default function CheckWin(props: any) {
       <span onClick={handleClickOpen}>{props.children}</span>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Check if the person selected</DialogTitle>
-        <DialogContent>
+        <DialogTitle id="form-dialog-title">Check if you win!</DialogTitle>
+        <DialogContent style={{ color: 'grey' }}>
+          <Typography>Input a passport number and see if it is one of the winners'.</Typography>
           <TextField
             value={searchName}
             onChange={e => {

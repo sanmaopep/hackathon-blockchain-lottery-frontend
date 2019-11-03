@@ -112,6 +112,7 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
           >
             <HomeIcon />
           </IconButton>
+          &nbsp;&nbsp;
           <Typography
             variant="h6"
             noWrap={true}

@@ -15,15 +15,17 @@ const schema = {
     hashed: {
       type: 'boolean',
       title: 'Anonymous',
-      description: "If clicked all candidate's information will be hidden",
+      description: "If selected, all candidate's passport information will be hidden",
       default: false,
     },
     rounds: {
-      title: 'Lottery Rounds',
+      title: 'Round Settings',
+      description:
+        "Click 'Add item' to add one round, input a number to set the number of winners for each round.",
       type: 'array',
       minItems: 1,
       items: {
-        title: 'The Quota of Current Round',
+        title: 'The Number of Winners in this Round',
         type: 'integer',
         default: 1,
       },
