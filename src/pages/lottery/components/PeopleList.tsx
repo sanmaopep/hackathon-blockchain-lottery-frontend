@@ -55,7 +55,7 @@ export default class PeopleList extends React.Component<any, any> {
                   winner.forEach((roundWinner, index) => {
                     if (roundWinner.indexOf(people) !== -1) {
                       rank = index;
-                      winText = `Win in Round ${index}`;
+                      winText = `Win in Round ${index + 1}`;
                     }
                   });
                 }

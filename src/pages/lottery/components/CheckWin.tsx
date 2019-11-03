@@ -69,10 +69,10 @@ export default function CheckWin(props: any) {
           <p>{result}</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={check} color="primary">
+          <Button onClick={check} color="secondary">
             Check
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
         </DialogActions>

@@ -1,2 +1,2 @@
 export const Mnemonic =
-  'tray over cube joy together tourist solar indoor leaf galaxy witness merge connect debris hub scatter between scheme wealth unveil proud jacket squirrel love';
+  'mean merit that visit year twin cargo habit obscure organ deliver equip young miracle swarm frequent stuff picnic strike wasp stadium moral betray hand';
