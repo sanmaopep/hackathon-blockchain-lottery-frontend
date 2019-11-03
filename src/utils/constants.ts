@@ -1,2 +1,2 @@
 export const Mnemonic =
-  'broken old argue castle beauty rate assume thank canyon stamp crew various two inner limb exhibit tower dragon hero ribbon brown run only lottery';
+  'tray over cube joy together tourist solar indoor leaf galaxy witness merge connect debris hub scatter between scheme wealth unveil proud jacket squirrel love';

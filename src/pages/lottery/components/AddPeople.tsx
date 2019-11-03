@@ -1,10 +1,11 @@
+import React, { PureComponent } from 'react';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import React from 'react';
 import SchemaForm from '@/components/SchemaForm';
 import TextField from '@material-ui/core/TextField';
 import { addPplToLottery } from '@/services/lottery';
@@ -25,52 +26,72 @@ const uiSchema = {
   },
 };
 
-export default function AddPeopleDialog(props: any) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+export default class AddPeopleDialog extends PureComponent<any, any> {
+  state = {
+    open: false,
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  handleClickOpen = () => {
+    this.setState({
+      open: true,
+    });
   };
 
-  const submit = ({ formData }: any) => {
+  handleClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
+  submit = ({ formData }: any) => {
     if (!lotteryState.currLottery) {
       return;
     }
     addPplToLottery(lotteryState.currLottery.id, formData);
 
-    handleClose();
+    this.handleClose();
   };
 
-  const spanProps = !props.disabled
-    ? {
-        onClick: handleClickOpen,
-      }
-    : {};
+  render() {
+    const spanProps = !this.props.disabled
+      ? {
+          onClick: this.handleClickOpen,
+        }
+      : {};
 
-  return (
-    <>
-      <span {...spanProps}>{props.children}</span>
+    return (
+      <>
+        <span {...spanProps}>{this.props.children}</span>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add People</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Add A New People to this Lottery</DialogContentText>
-          <SchemaForm onSubmit={submit} uiSchema={uiSchema} schema={schema}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              style={{ margin: '20px 0', float: 'right' }}
-            >
-              Submit
-            </Button>
-          </SchemaForm>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Add People</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Add A New People to this Lottery</DialogContentText>
+            <SubmitForm submit={this.submit} />
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+  }
+}
+
+class SubmitForm extends PureComponent<any, any> {
+  render() {
+    return (
+      <SchemaForm onSubmit={this.props.submit} uiSchema={uiSchema} schema={schema}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={{ margin: '20px 0', float: 'right' }}
+        >
+          Submit
+        </Button>
+      </SchemaForm>
+    );
+  }
 }

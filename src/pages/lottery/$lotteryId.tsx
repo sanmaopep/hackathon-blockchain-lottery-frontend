@@ -15,10 +15,15 @@ import styles from '../index.less';
 
 @observer
 export default class LotteryDetail extends React.Component {
-  interval;
+  interval: any;
 
   componentDidMount() {
-    // @ts-ignore
+    this.req();
+    this.interval = setInterval(this.req, 5000);
+  }
+
+  req = () => {
+    //@ts-ignore
     const lotteryId = this.props.match.params.lotteryId;
 
     getLottery(lotteryId).then(lottery => {
@@ -30,7 +35,7 @@ export default class LotteryDetail extends React.Component {
     getLotteryWinner(lotteryId).then(winner => {
       lotteryState.winner = winner;
     });
-  }
+  };
 
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -63,7 +68,7 @@ export default class LotteryDetail extends React.Component {
             </div>
           </Typography>
           <Typography style={{ marginTop: 10 }} variant="subtitle1">
-            Description
+            {currLottery.description}
           </Typography>
           <Divider style={{ margin: '20px 0' }} />
 

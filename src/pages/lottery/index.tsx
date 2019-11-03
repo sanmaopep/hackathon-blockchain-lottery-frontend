@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardHeader,
   Fab,
@@ -28,10 +29,21 @@ import { router } from 'umi';
 
 @observer
 export default class LotteryIndex extends React.Component {
+  interval: any;
+
   componentDidMount() {
-    getLotteries().then(lotteries => {
-      lotteryState.lotteries = lotteries;
-    });
+    const req = () => {
+      getLotteries().then(lotteries => {
+        lotteryState.lotteries = lotteries;
+      });
+    };
+
+    req();
+    this.interval = setInterval(req, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
@@ -42,8 +54,9 @@ export default class LotteryIndex extends React.Component {
             position: 'fixed',
             bottom: 40,
             right: 40,
+            zIndex: 999,
           }}
-          variant="contained"
+          variant="contain"
           onClick={() => {
             router.push('/lottery/new');
           }}
@@ -55,14 +68,12 @@ export default class LotteryIndex extends React.Component {
         <Grid component="div" container={true} space={3}>
           {lotteryState.lotteries
             ? lotteryState.lotteries.map(lottery => {
-                let subHeader = '';
-                if (lottery.currentRound === -1) {
-                  subHeader = 'Not Start Yet';
+                let subHeader: any;
+                if (lottery.stopEnroll) {
+                  subHeader = <span style={{ color: 'red' }}>Finished</span>;
                   // @ts-ignore
-                } else if (lottery.currentRound + 2 === lottery.rounds.length) {
-                  subHeader = 'Finished';
                 } else {
-                  subHeader = 'Playing';
+                  subHeader = <span style={{ color: 'green' }}>Not Start</span>;
                 }
 
                 return (
@@ -75,25 +86,16 @@ export default class LotteryIndex extends React.Component {
                       >
                         <CardHeader
                           avatar={
-                            <Avatar>
-                              <HowToVoteIcon />
-                            </Avatar>
+                            <Avatar
+                              src={
+                                lottery.hashed
+                                  ? require('../../assets/Anonymous.png')
+                                  : require('../../assets/Name.png')
+                              }
+                            />
                           }
                           title={lottery.title}
-                          subheader={subHeader}
-                          action={
-                            <Button>
-                              &nbsp;{' '}
-                              {lottery.rounds
-                                ? lottery.rounds.reduce((acm, curr) => {
-                                    acm += Number(curr);
-                                    return acm;
-                                  }, 0)
-                                : 0}
-                              &nbsp;/ {lottery.candidateNum} &nbsp;
-                              <PersonIcon />
-                            </Button>
-                          }
+                          action={<Button>{subHeader}</Button>}
                         />
                         <CardContent>
                           <Typography
@@ -107,6 +109,17 @@ export default class LotteryIndex extends React.Component {
                             {lottery.description.substring(0, 100) + '...'}
                           </Typography>
                         </CardContent>
+                        <CardActions>
+                          <Button>
+                            Candidates: {lottery.candidateNum} &nbsp; Winners:
+                            {lottery.rounds
+                              ? lottery.rounds.reduce((acm, curr) => {
+                                  acm += Number(curr);
+                                  return acm;
+                                }, 0)
+                              : 0}
+                          </Button>
+                        </CardActions>
                       </CardActionArea>
                     </Card>
                   </Grid>

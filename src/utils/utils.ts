@@ -22,3 +22,14 @@ export function sortObject(obj) {
   });
   return result;
 }
+
+export function randomDeepColor() {
+  const r = Math.floor(123 - Math.random() * 123);
+  const g = Math.floor(123 - Math.random() * 123);
+  const b = Math.floor(123 - Math.random() * 123);
+  return 'rgba(' + r + ',' + g + ',' + b + ',0.8)';
+}
+
+export function getRankColor(num) {
+  return ['red', 'green', 'yellow'][num];
+}

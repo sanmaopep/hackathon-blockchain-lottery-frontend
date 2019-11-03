@@ -18,24 +18,24 @@ import { observer } from 'mobx-react';
 @observer
 export default class Rounds extends React.Component {
   state = {
+    loading: false,
     currentRound: 0,
   };
 
   componentDidMount() {
-    this.fetchData();
-
     autorun(() => {
       const { currLottery } = lotteryState;
       if (lotteryState.status === LotteryStatus.NotStart) {
-        this.setState({
-          loading: false,
-        });
+        // this.setState({
+        //   loading: false,
+        // });
       }
       if (!currLottery) {
         return;
       }
       if (lotteryState.status === LotteryStatus.Finish) {
         this.setState({
+          loading: false,
           // @ts-ignore
           currentRound: currLottery.rounds.length,
         });
@@ -51,41 +51,11 @@ export default class Rounds extends React.Component {
     this.setState({
       loading: true,
     });
-
-    //@ts-ignore
-    this.goReqInterval();
-  };
-
-  goReqInterval = () => {
-    this.fetchData();
-    const reqInterval = setInterval(() => {
-      this.fetchData(() => {
-        clearInterval(reqInterval);
-      });
-    }, 2000);
-  };
-
-  fetchData = (cb = () => {}) => {
-    // @ts-ignore
-    const lotteryId = lotteryState.currLottery.id;
-
-    getLottery(lotteryId).then(lottery => {
-      lotteryState.currLottery = lottery;
-    });
-
-    getLotteryWinner(lotteryId).then(winner => {
-      if (winner) {
-        cb();
-      }
-      lotteryState.winner = winner;
-    });
   };
 
   render() {
     const { currLottery, status } = lotteryState;
-    const { currentRound } = this.state;
-
-    const loading = status === LotteryStatus.Playing;
+    const { currentRound, loading } = this.state;
 
     if (!currLottery) return '';
     const rounds = currLottery.rounds;

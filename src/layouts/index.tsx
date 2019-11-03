@@ -10,5 +10,9 @@ toast.configure({
 });
 
 export default function BasicLayout(props: any) {
+  if (props.location.pathname === '/login') {
+    return props.children;
+  }
+
   return <DrawerLayout>{props.children}</DrawerLayout>;
 }

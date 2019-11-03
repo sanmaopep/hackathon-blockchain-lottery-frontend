@@ -1,5 +1,3 @@
-import { getBaseReq, signJson } from './utils/getBaseReq';
-
 import cosmosState from './store/comos';
 
 interface MenuItem {

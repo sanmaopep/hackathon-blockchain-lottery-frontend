@@ -98,9 +98,15 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
+          {/* <img
+            style={{
+              width: 40,
+            }}
+            src={require('../assets/Logo.png')}
+          /> */}
           <IconButton
             onClick={() => {
-              router.push('/');
+              router.push('/lottery');
             }}
             color="inherit"
           >
